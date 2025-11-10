@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaliação Internato - UNIG</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body, html {
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* Tela de Loading */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://i.ibb.co/fdC4bPK0/fundo-med.png') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(23, 27, 22, 0.85);
+            backdrop-filter: blur(5px);
+        }
+        
+        .loading-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .loading-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .logo {
+            width: 150px;
+            height: auto;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+        
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 25px;
+        }
+        
+        .loading-text {
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 8px;
+        }
+        
+        .loading-subtext {
+            color: rgba(255,255,255,0.9);
+            font-size: 16px;
+            text-align: center;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+        
+        .unig-text {
+            color: #128f4c;
+            font-weight: 700;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Iframe */
+        iframe {
+            width: 100%;
+            height: 100vh;
+            border: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        iframe.loaded {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Tela de Loading -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-overlay"></div>
+        <div class="loading-content">
+            <img src="https://institucional.unig.br/wp-content/uploads/logo-branca-da-unig.webp" 
+                 alt="UNIG" 
+                 class="logo">
+            <div class="spinner"></div>
+            <div class="loading-text">AVALIAÇÃO INTERNATO</div>
+            <div class="loading-subtext">Medicina • <span class="unig-text">UNIG</span></div>
+        </div>
+    </div>
+
+    <!-- Iframe principal -->
+    <iframe 
+        src="https://script.google.com/macros/s/AKfycbw2sfQ05us8AD4zYSN9tmDqZ2Q62ivFsdbJF7p2kKuih8JNadFniqR2jVkpzkknZiE/exec"
+        sandbox="allow-scripts allow-forms allow-same-origin allow-popups"
+        allow="geolocation; microphone; camera"
+        frameborder="0"
+        id="mainFrame"
+        onload="hideLoading()">
+    </iframe>
+
+    <script>
+        function hideLoading() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const iframe = document.getElementById('mainFrame');
+            
+            // Esconde o loading e mostra o iframe
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+                iframe.classList.add('loaded');
+            }, 1500); // Delay um pouco maior para apreciar o loading
+        }
+        
+        // Fallback: se depois de 15 segundos não carregar, esconde loading mesmo assim
+        setTimeout(() => {
+            const loadingScreen = document.getElementById('loadingScreen');
+            const iframe = document.getElementById('mainFrame');
+            
+            if (!loadingScreen.classList.contains('hidden')) {
+                loadingScreen.classList.add('hidden');
+                iframe.classList.add('loaded');
+            }
+        }, 15000);
+    </script>
+</body>
+</html>
